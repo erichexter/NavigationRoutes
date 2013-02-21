@@ -6,29 +6,80 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NUnit.Framework;
 using NavigationRoutes;
-
+using Should;
 namespace UnitTests
 {
+    [TestFixture]
     public class NavigationRegistrationTests
     {
+        [Test]
         public void Should_be_an_awesome_api()
         {
 
             var nav = GlobalNavigation.Nodes;
 
+            CreateNavigationNodes(nav);             
+
+            GlobalNavigation.Nodes.Count().ShouldEqual(4);
+            GlobalNavigation.Nodes.Clear();
+        }
+        [Test]
+        public void Should_add_routes_to_the_route_collection()
+        {           
+
+            CreateNavigationNodes(GlobalNavigation.Nodes);
+
+            var routes = new System.Web.Routing.RouteCollection();
+
+            GlobalNavigation.AddAllRoutes(routes);
+            routes.Count.ShouldEqual(3);
+            GlobalNavigation.Nodes.Clear();
+        }
+        private static void CreateNavigationNodes(IList<INavigationNode> nav)
+        {
             nav.AddNode("Ädmin").WithRoute<HomeController>(c => c.Index())
                .AddChild("Latest").WithRoute<HomeController>(c => c.Index())
-                //.AddChild("Queue New").WithRoute<>()
+               .AddChild("Queue New").WithRoute<HomeController>(c => c.Index())
                .AddDivider()
-               .AddHeader("head this");
-            //.AddChildren(IList)
+               .AddHeader("head this")
+               .AddChildren(new List<NavigationNode>()
+                   {
+                       new NavigationNode() {Options = new NavigationNodeOptions() {DisplayName = "foo"}}
+                   })
+               .AddNode("Home");
         }
     }
 
     public class GlobalNavigation
     {
-        public static IList<INavigationNode> Nodes { get; set; }
+         static GlobalNavigation()
+        {
+             Nodes=new List<INavigationNode>();
+        }
+
+        public static IList<INavigationNode> Nodes { get; protected set; }
+
+        public static void AddAllRoutes(RouteCollection routes)
+        {
+            foreach (var node in Nodes)
+            {
+                AddNodeToRoutes(routes, node);
+            }
+        }
+
+        private static void AddNodeToRoutes(RouteCollection routes, INavigationNode node)
+        {
+            if (node.Options.Route != null)
+            {
+                routes.Add(node.Options.Route);
+            }
+            foreach (var child in node.ChildNavigationNodes)
+            {
+                AddNodeToRoutes(routes,child);
+            }
+        }
     }
     public static class GlobalNavigationNodesExtensions
     {
@@ -96,6 +147,20 @@ namespace UnitTests
             var node = new NavigationNode();
             node.Options.NavigationNodeType=NavigationNodeType.Header;
             node.Options.DisplayName = displayText;
+            Nodes.Add(node);
+            CurrentNode = node;
+            return this;
+        }
+
+        public NavigationNodeBuilder AddChildren(IList<NavigationNode> childNodes)
+        {
+            CurrentNode.ChildNavigationNodes.AddRange(childNodes);
+            return this;
+        }
+
+        public NavigationNodeBuilder AddNode(string displayText)
+        {
+            var node = new NavigationNode() {Options = new NavigationNodeOptions() {DisplayName = displayText}};
             Nodes.Add(node);
             CurrentNode = node;
             return this;

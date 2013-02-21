@@ -16,6 +16,7 @@ namespace NavigationRoutes
             : base(url, routeHandler)
         {
             _name = name;
+            Options=new NavigationRouteOptions();
         }
 
         public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,

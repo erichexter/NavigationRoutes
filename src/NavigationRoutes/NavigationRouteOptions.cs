@@ -10,10 +10,10 @@ namespace NavigationRoutes
         public NavigationRouteOptions()
         {
             this.AreaName = string.Empty;
-            this.HasBreakAfter = false;
-            this.IsRightAligned = false;
-            this.FilterToken = string.Empty;
-            this.ElementId = string.Empty;
+            //this.HasBreakAfter = false;
+            //this.IsRightAligned = false;
+            //this.FilterToken = string.Empty;
+            //this.ElementId = string.Empty;
         }
 
         /// <summary>
