@@ -9,22 +9,19 @@ namespace NavigationRoutes
     {
         public Scratch(GlobalNavigationManager nodes)
         {
-            //NavigationManager manager = new NavigationManager();
+            
+            // prototype
+
+            //var nav = GlobalNavigation.Nodes
+
+            //nav.AddNode("Ädmin").WithRoute<>(c=>c.Foobar)
+            //.AddChild("Latest",{}).WithRoute<>()
+            //.AddChild("Queue New").WithRoute<>()
+            //.AddDivider()
+            //.AddHeader("head this") 
+            //.AddChildren(IList)
 
 
-            List<INavigationNode> childNodes = new List<INavigationNode>()
-                {
-                    NavigationManager.BuildNode<HomeController>(c => "Foo", c.Foo()),
-                    NavigationManager.BuildNode<HomeController>(c => "Bar", c.Bar()),
-                    new BootstrapDividerNode(BootstrapDividerType.Vertical),
-                    NavigationManager.BuildNode<HomeController>(c => "Baz", c.Baz()),
-                    NavigationManager.BuildNode<HomeController>(c => "For", c.For())
-                };
-            
-            
-            INavigationNode node = manager.AddNode("Admin")
-                                          .WithRoute<HomeController>(c => c.Index())
-                                          .WithChildren(n => childNodes);
 
         }
 
