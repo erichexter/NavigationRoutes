@@ -7,23 +7,23 @@ namespace NavigationRoutes
 {
     class Scratch
     {
-        public Scratch(GlobalNavigationManager nodes)
-        {
+        //public Scratch(GlobalNavigationManager nodes)
+        //{
             
-            // prototype
+        //    // prototype
 
-            //var nav = GlobalNavigation.Nodes
+        //    //var nav = GlobalNavigation.Nodes
 
-            //nav.AddNode("Ädmin").WithRoute<>(c=>c.Foobar)
-            //.AddChild("Latest",{}).WithRoute<>()
-            //.AddChild("Queue New").WithRoute<>()
-            //.AddDivider()
-            //.AddHeader("head this") 
-            //.AddChildren(IList)
+        //    //nav.AddNode("Ädmin").WithRoute<>(c=>c.Foobar)
+        //    //.AddChild("Latest",{}).WithRoute<>()
+        //    //.AddChild("Queue New").WithRoute<>()
+        //    //.AddDivider()
+        //    //.AddHeader("head this") 
+        //    //.AddChildren(IList)
 
 
 
-        }
+        //}
 
     }
 }

@@ -79,6 +79,8 @@
     <Compile Include="NamedRoute.cs" />
     <Compile Include="NavigationExtensions.cs" />
     <Compile Include="NavigationManager.cs" />
+    <Compile Include="NavigationNodeOptions.cs" />
+    <Compile Include="NavigationNodeType.cs" />
     <Compile Include="NavigationRouteConfigurationExtensions.cs" />
     <Compile Include="NavigationRouteFilter.cs" />
     <Compile Include="NavigationRouteOptions.cs" />

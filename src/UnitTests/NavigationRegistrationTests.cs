@@ -17,60 +17,89 @@ namespace UnitTests
 
             var nav = GlobalNavigation.Nodes;
 
-             nav.AddNode("Ädmin").WithRoute<HomeController>(c=>c.Index())
-            .AddChild("Latest",{}).WithRoute<>()
-            .AddChild("Queue New").WithRoute<>()
-            .AddDivider()
-            .AddHeader("head this") 
-            .AddChildren(IList)
+            nav.AddNode("Ädmin").WithRoute<HomeController>(c => c.Index())
+               .AddChild("Latest").WithRoute<HomeController>(c => c.Index())
+                //.AddChild("Queue New").WithRoute<>()
+               .AddDivider()
+               .AddHeader("head this");
+            //.AddChildren(IList)
         }
     }
 
     public class GlobalNavigation
     {
-        public static IList<NavigationNode> Nodes { get; set; }
+        public static IList<INavigationNode> Nodes { get; set; }
     }
     public static class GlobalNavigationNodesExtensions
     {
-        public static NavigationNodeBuilder AddNode(this IList<NavigationNode> nodes, string DisplayText)
-        {
-
-            
-            var node = new NavigationNode() {DisplayText = DisplayText};
-            nodes.Add(node);
+        public static NavigationNodeBuilder AddNode(this IList<INavigationNode> nodes, string DisplayText)
+        {            
+            var node = new NavigationNode() {Options = new NavigationNodeOptions(){DisplayName  = DisplayText}};            
+            nodes.Add(node);            
             return new NavigationNodeBuilder(){CurrentNode=node,Nodes=nodes};
         }
     }
 
+    public class NavigationNode:INavigationNode
+    {
+        public NavigationNode()
+        {
+            Options=new NavigationNodeOptions();
+            ChildNavigationNodes=new List<INavigationNode>();
+        }
+
+        public INavigationNode ParentNode { get; set; }
+        public List<INavigationNode> ChildNavigationNodes { get; set; }
+        public NavigationNodeOptions Options { get; set; }
+        
+    }
+
     public class NavigationNodeBuilder
     {
-        public NavigationNode CurrentNode { get; set; }
+        public INavigationNode CurrentNode { get; set; }
+        public INavigationNode CurrentParentNode { get; set; }
 
-        public IList<NavigationNode> Nodes { get; set; }
+        public IList<INavigationNode> Nodes { get; set; }
 
-        public NavigationNodeBuilder WithRoute<T>(Expression<Func<T, ActionResult>> action)
+        public NavigationNodeBuilder WithRoute<T>(Expression<Func<T, ActionResult>> action) where T : IController
         {
             var newRoute = new NamedRoute("", "", new MvcRouteHandler());
-            newRoute.DisplayName = CurrentNode.DisplayText;
-            //newRoute.NavigationGroup = navigationGroup;
-            newRoute.Options = new NavigationRouteOptions();
+            newRoute.DisplayName = CurrentNode.Options.DisplayName;
             newRoute.ToDefaultAction(action, newRoute.Options);
-            CurrentNode.Route = newRoute;
-            CurrentNode.NodeType = NodeType.Link;
+            CurrentNode.Options.Route = newRoute;
+            CurrentNode.Options.NavigationNodeType = NavigationNodeType.Link;
+            return this;
+        }
+
+        public NavigationNodeBuilder AddChild(string displayText)
+        {
+            
+            var childNode = new NavigationNode() {};
+            childNode.Options.DisplayName = displayText;
+            CurrentNode.ChildNavigationNodes.Add(childNode);
+            CurrentParentNode = CurrentNode;
+            CurrentNode = childNode;
+            return this;
+        }
+
+        public NavigationNodeBuilder AddDivider()
+        {
+            var node = new NavigationNode();
+            node.Options.NavigationNodeType=NavigationNodeType.Divider;
+            Nodes.Add(node);
+            CurrentNode = node;
+            return this;
+        }
+
+        public NavigationNodeBuilder AddHeader(string displayText)
+        {
+            var node = new NavigationNode();
+            node.Options.NavigationNodeType=NavigationNodeType.Header;
+            node.Options.DisplayName = displayText;
+            Nodes.Add(node);
+            CurrentNode = node;
+            return this;
         }
     }
 
-    public enum NodeType
-    {
-        Link
-    }
-
-    public class NavigationNode
-    {
-        public string DisplayText { get; set; }
-
-        public NodeType NodeType { get; set; }
-
-        public Route Route { get; set; }
-    }
 }

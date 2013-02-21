@@ -31,7 +31,7 @@ namespace NavigationRoutes
         }
     }
 
-    public static class NavigationRouteFilters
+    public  class NavigationRouteFilters
     {
         public static List<INavigationRouteFilter> Filters=new List<INavigationRouteFilter>();
     }

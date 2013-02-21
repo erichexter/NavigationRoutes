@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NavigationRegistrationTests.cs" />
     <Compile Include="Navigation_Route_Should.cs" />
     <Compile Include="NullFilter.cs" />
     <Compile Include="RemoveAuthorizeActions.cs" />

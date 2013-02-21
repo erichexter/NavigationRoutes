@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Routing;
 
 namespace NavigationRoutes
 {
@@ -10,18 +11,20 @@ namespace NavigationRoutes
         public NavigationNodeOptions()
         {
             this.InnerHtmlFormat = "{0}";
+            CssClasses=new List<string>();
         }
 
-        string DisplayName { get; set; }
-        string ElementId { get; set; }
-        string FilterToken { get; set; }
-        string InnerHtmlFormat { get; set; }
+        public string DisplayName { get; set; }
+        public string ElementId { get; set; }
+        public string FilterToken { get; set; }
+        public string InnerHtmlFormat { get; set; }
 
-        bool IsHidden { get; set; }
+        public bool IsHidden { get; set; }
 
-        NavigationNodeType NavigationNodeType { get; set; }
+        public NavigationNodeType NavigationNodeType { get; set; }
 
-        List<string> CssClasses { get; set; }
+        public List<string> CssClasses { get; protected set; }
 
+        public Route Route { get; set; }
     }
 }
