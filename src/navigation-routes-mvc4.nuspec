@@ -6,12 +6,12 @@
     <authors>Eric Hexter, Matt Hinze</authors>
     <description>Routes for creating Menus and Navigation.</description>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
-    <projectUrl>http://github.com/erichexter/twitter.bootstrap.mvc</projectUrl>
+    <projectUrl>https://github.com/erichexter/NavigationRoutes</projectUrl>
     <dependencies>
       <dependency id="Mvc4Futures" />
     </dependencies>
   </metadata>
   <files>
-    <file src="NavigationRoutes\NavigationRoutes\*.cs" target="Content\NavigationRoutes"/>
+    <file src="NavigationRoutes\bin\debug\navigationroutes.dll" target="lib"/>
   </files>
 </package>
