@@ -25,6 +25,6 @@ namespace NavigationRoutes
 
         public List<string> CssClasses { get; protected set; }
 
-        public Route Route { get; set; }
+        public NamedRoute Route { get; set; }
     }
 }

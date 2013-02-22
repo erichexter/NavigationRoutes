@@ -12,7 +12,7 @@ namespace UnitTests
     /// <summary>
     /// this is a contrived sample for unit testing only.
     /// </summary>
-    public class RemoveAuthorizeActions:INavigationRouteFilter
+    public class RemoveAuthorizeActions:INavigationFilter
     {
         public bool ShouldRemove(Route route)
         {

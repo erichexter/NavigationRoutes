@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.Mvc;
+﻿using System.Collections;
+using Microsoft.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using System.Text;
+using UnitTests;
 
 namespace NavigationRoutes
 {
@@ -31,29 +33,26 @@ namespace NavigationRoutes
         }
     }
 
-    public  class NavigationRouteFilters
-    {
-        public static List<INavigationRouteFilter> Filters=new List<INavigationRouteFilter>();
-    }
+
     public static class NavigationViewExtensions
     {
         
         public static IHtmlString Navigation(this HtmlHelper helper)
         {
             return new CompositeMvcHtmlString(
-                GetRoutesForCurrentRequest(RouteTable.Routes,NavigationRouteFilters.Filters)
+                GetRoutesForCurrentRequest(RouteTable.Routes,GlobalNavigation.Filters)
                 .GroupBy(route => route.NavigationGroup)
                 .Select(routeGroup => helper.NavigationListItemRouteLink(routeGroup.Select(g=>g))));
         }
 
-        public static IEnumerable<NamedRoute> GetRoutesForCurrentRequest(RouteCollection routes,IEnumerable<INavigationRouteFilter> routeFilters)
+        public static IEnumerable<NamedRoute> GetRoutesForCurrentRequest(RouteCollection routes,IList<INavigationFilter> routeFilters)
         {
             var navigationRoutes = routes.OfType<NamedRoute>().Where(r=>r.IsChild==false).ToList();
             if (routeFilters.Count() > 0)
             {
                 foreach (var route in navigationRoutes.ToArray())
                 {
-                    foreach (var filter in routeFilters)
+                    foreach (INavigationFilter filter in routeFilters)
                     {
                         if (filter.ShouldRemove(route))
                         {

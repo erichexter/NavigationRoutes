@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace UnitTests
 {
-    public class NullFilter:INavigationRouteFilter
+    public class NullFilter:INavigationFilter
     {
         public  bool _wasCalled=false;
         public bool ShouldRemove(Route navigationRoutes)

@@ -74,11 +74,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalNavigation.cs" />
+    <Compile Include="GlobalNavigationNodesExtensions.cs" />
+    <Compile Include="INavigationFilter.cs" />
     <Compile Include="INavigationNode.cs" />
     <Compile Include="INavigationRouteFilter.cs" />
     <Compile Include="NamedRoute.cs" />
     <Compile Include="NavigationExtensions.cs" />
     <Compile Include="NavigationManager.cs" />
+    <Compile Include="NavigationNode.cs" />
+    <Compile Include="NavigationNodeBuilder.cs" />
     <Compile Include="NavigationNodeOptions.cs" />
     <Compile Include="NavigationNodeType.cs" />
     <Compile Include="NavigationRouteConfigurationExtensions.cs" />
