@@ -77,6 +77,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalNavigation.cs" />
     <Compile Include="GlobalNavigationNodesExtensions.cs" />
+    <Compile Include="Icons.cs" />
     <Compile Include="INavigationFilter.cs" />
     <Compile Include="INavigationNode.cs" />
     <Compile Include="INavigationRouteFilter.cs" />
