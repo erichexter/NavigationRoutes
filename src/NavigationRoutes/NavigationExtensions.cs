@@ -13,9 +13,15 @@ using UnitTests;
 
 namespace NavigationRoutes
 {
-    public class Defaults
+    public class Constants
     {
-        public const string FILTER_TOKEN_KEY = "FilterToken";
+        public const string FilterTokenKey = "FilterToken";
+        public const string AreaTokenKey = "area";
+
+        public const string Namespaces = "Namespaces";
+        public const string Controller = "Controller";
+        public const string Action = "Action";
+
     }
 
     public class CompositeMvcHtmlString : IHtmlString
@@ -146,12 +152,12 @@ namespace NavigationRoutes
 
         public static string FilterToken(this RouteValueDictionary routeValues)
         {
-            return (string)routeValues[Defaults.FILTER_TOKEN_KEY];
+            return (string)routeValues[Constants.FilterTokenKey];
         }
 
         public static bool HasFilterToken(this RouteValueDictionary routeValues)
         {
-            return routeValues.ContainsKey(Defaults.FILTER_TOKEN_KEY);
+            return routeValues.ContainsKey(Constants.FilterTokenKey);
         }
 
     }

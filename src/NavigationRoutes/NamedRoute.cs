@@ -11,6 +11,7 @@ namespace NavigationRoutes
         string _navigationRoute = string.Empty;
 
         List<NamedRoute> _childRoutes = new List<NamedRoute>();
+        NavigationRouteOptions _options = new NavigationRouteOptions();
 
         public NamedRoute(string name, string url, IRouteHandler routeHandler)
             : base(url, routeHandler)
@@ -60,7 +61,11 @@ namespace NavigationRoutes
         
         public List<NamedRoute> Children { get { return _childRoutes; } }
         public bool IsChild { get; set; }
-        
-        public string Area { get; set; }
+
+        public NavigationRouteOptions Options
+        {
+            get { return _options; }
+            set { _options = value; } 
+        }
     }
 }

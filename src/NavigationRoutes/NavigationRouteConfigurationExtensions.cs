@@ -72,14 +72,10 @@ namespace NavigationRoutes
             var body = action.Body as MethodCallExpression;
 
             if (body == null)
-            {
                 throw new ArgumentException("Expression must be a method call");
-            }
 
             if (body.Object != action.Parameters[0])
-            {
                 throw new ArgumentException("Method call must target lambda argument");
-            }
 
             string actionName = body.Method.Name;
 
@@ -93,42 +89,45 @@ namespace NavigationRoutes
 
             string controllerName = typeof(T).Name;
 
-            if (controllerName.EndsWith("Controller", StringComparison.OrdinalIgnoreCase))
+            if (controllerName.EndsWith(Constants.Controller, StringComparison.OrdinalIgnoreCase))
             {
-                controllerName = controllerName.Remove(controllerName.Length - 10, 10);
+                var length = Constants.Controller.Length;
+                controllerName = controllerName.Remove(controllerName.Length - length, length);
             }
-
-            ;
+            
             route.Defaults = LinkBuilder.BuildParameterValuesFromExpression(body) ?? new RouteValueDictionary();
             foreach (var pair in route.Defaults.Where(x => x.Value == null).ToList())
                 route.Defaults.Remove(pair.Key);
 
-            route.Defaults.Add("controller", controllerName);
-            route.Defaults.Add("action", actionName);
+            route.Defaults.Add(Constants.Controller, controllerName);
+            route.Defaults.Add(Constants.Action, actionName);
 
-            var areaName = route.Area ?? string.Empty;
-
-            route.Url= CreateUrl(actionName,controllerName,areaName);
-
-            if(areaName=="")
-                route.Name = "Navigation-" + controllerName + "-" + actionName;
-            else
-                route.Name = "Navigation-" + areaName + "-"  + controllerName + "-" + actionName;
-
-            if(route.DataTokens == null)
-                route.DataTokens = new RouteValueDictionary();
-            route.DataTokens.Add("Namespaces", new string[] {typeof (T).Namespace});
-
-            if (!string.IsNullOrEmpty(areaName))
+            if (route.Options != null)
             {
-                route.DataTokens.Add("area", areaName.ToLower());
-            }
+                // calculate route
+                var areaName = route.Options.Area ?? string.Empty;
+                route.Url = CreateUrl(actionName, controllerName, areaName);
 
-            // todo: filter tokens
-            //if (!string.IsNullOrEmpty(options.FilterToken))
-            //{
-            //    route.DataTokens.Add(Defaults.FILTER_TOKEN_KEY, options.FilterToken.ToLower());
-            //}
+                if (areaName == "")
+                    route.Name = "Navigation-" + controllerName + "-" + actionName;
+                else
+                    route.Name = "Navigation-" + areaName + "-" + controllerName + "-" + actionName;
+
+                // apply tokens
+                if (route.DataTokens == null)
+                    route.DataTokens = new RouteValueDictionary();
+
+                // namespace
+                route.DataTokens.Add(Constants.Namespaces, new string[] { typeof(T).Namespace });
+                
+                // area
+                route.DataTokens.Add(Constants.AreaTokenKey, areaName.ToLower());
+
+                // filter
+                var filterToken = route.Options.FilterToken ?? string.Empty;
+                if (!string.IsNullOrEmpty(filterToken))
+                    route.DataTokens.Add(Constants.FilterTokenKey, filterToken.ToLower());
+            }
 
             return route;
         }

@@ -14,8 +14,8 @@ namespace UnitTests
     {
         public static void CreateNavigationNodes(IList<INavigationNode> nav)
         {
-            nav.AddNode("Home").WithAreaRoute<HomeController>(c => c.Index(),"Admin")
-               .AddChild("About").WithAreaRoute<HomeController>(c => c.About(),"Admin")
+            nav.AddNode("Home").WithAreaRoute<HomeController>(c => c.Index(), new NavigationRouteOptions{Area = "Admin"})
+               .AddChild("About").WithAreaRoute<HomeController>(c => c.About(), new NavigationRouteOptions { Area = "Admin", FilterToken = "admin" })
                .AddChild("Queue New").WithRoute<HomeController>(c => c.Index())
                .AddDivider()
                .AddHeader("head this")

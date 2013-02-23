@@ -32,9 +32,20 @@ namespace UnitTests
             r.DataTokens["area"].ToString().ShouldEqual("admin");
             
             uh.RouteUrl("Navigation-AdMin-Home-Index").ShouldEqual("/admin");
-      
-
         }
+
+        [Test]
+        public void Map_a_route_with_a_filter_token()
+        {
+            var nodes = new List<INavigationNode>();
+            CreateNavigationNodes(nodes);
+            var routes = new System.Web.Routing.RouteCollection();
+            routes.AddNodesToRoutes(nodes);
+
+            var r = (Route)routes["Navigation-Admin-Home-About"];
+            r.DataTokens[Constants.FilterTokenKey].ToString().ShouldEqual("admin");
+        }
+
         [Test]
         public void Map_a_route_to_a_url_matching_the_action_name()
         {
@@ -69,6 +80,7 @@ namespace UnitTests
             var uh = GetUrlHelper(routes);
             uh.RouteUrl("Navigation-Home-Index").ShouldEqual("/");
         }
+
         [Test]
         public void Apply_filter_to_the_current_request()
         {
@@ -81,6 +93,7 @@ namespace UnitTests
 
             filter._wasCalled.ShouldBeTrue();
         }
+
         [Test]
         public void should_apply_filters()
         {

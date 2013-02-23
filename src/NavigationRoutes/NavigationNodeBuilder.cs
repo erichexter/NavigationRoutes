@@ -67,14 +67,18 @@ namespace UnitTests
             return this;
         }
 
-        public NavigationNodeBuilder WithAreaRoute<T>(Expression<Func<T, ActionResult>> action, string areaName) where T : IController
+        public NavigationNodeBuilder WithAreaRoute<T>(Expression<Func<T, ActionResult>> action, NavigationRouteOptions options = null) where T : IController
         {
             var newRoute = new NamedRoute("", "", new MvcRouteHandler());
             newRoute.DisplayName = CurrentNode.Options.DisplayName;
-            newRoute.Area = areaName;
-            // todo: area <= review this method implementation
-            //newRoute.Options.AreaName = areaName;
 
+            if (options!=null)
+            {
+                newRoute.Options.Area = options.Area;
+                newRoute.Options.FilterToken = options.FilterToken;
+            }
+            
+            
             newRoute.ToDefaultAction(action);
             CurrentNode.Options.Route = newRoute;
             CurrentNode.Options.NavigationNodeType = NavigationNodeType.Link;
