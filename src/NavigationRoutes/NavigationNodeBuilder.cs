@@ -17,7 +17,7 @@ namespace UnitTests
         {
             var newRoute = new NamedRoute("", "", new MvcRouteHandler());
             newRoute.DisplayName = CurrentNode.Options.DisplayName;
-            newRoute.ToDefaultAction(action, newRoute.Options);
+            newRoute.ToDefaultAction(action);
             CurrentNode.Options.Route = newRoute;
             CurrentNode.Options.NavigationNodeType = NavigationNodeType.Link;
             return this;
@@ -71,9 +71,11 @@ namespace UnitTests
         {
             var newRoute = new NamedRoute("", "", new MvcRouteHandler());
             newRoute.DisplayName = CurrentNode.Options.DisplayName;
-            newRoute.Options.AreaName = areaName;
+            newRoute.Area = areaName;
+            // todo: area <= review this method implementation
+            //newRoute.Options.AreaName = areaName;
 
-            newRoute.ToDefaultAction(action, newRoute.Options);
+            newRoute.ToDefaultAction(action);
             CurrentNode.Options.Route = newRoute;
             CurrentNode.Options.NavigationNodeType = NavigationNodeType.Link;
             return this;

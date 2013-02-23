@@ -39,10 +39,10 @@ namespace NavigationRoutes
         
         public static IHtmlString Navigation(this HtmlHelper helper)
         {
+            // todo: this is a little more complex than it may need to be now that we're moving to tree/node
             return new CompositeMvcHtmlString(
                 GetRoutesForCurrentRequest(RouteTable.Routes,GlobalNavigation.Filters)
-                .GroupBy(route => route.NavigationGroup)
-                .Select(routeGroup => helper.NavigationListItemRouteLink(routeGroup.Select(g=>g))));
+                .Select(routeGroup => helper.NavigationListItemRouteLink(new List<NamedRoute>() { routeGroup })));
         }
 
         public static IEnumerable<NamedRoute> GetRoutesForCurrentRequest(RouteCollection routes,IList<INavigationFilter> routeFilters)
@@ -71,10 +71,8 @@ namespace NavigationRoutes
             ul.AddCssClass("nav");
             
             var namedRoutes = routes as IList<NamedRoute> ?? routes.ToList();
-            if (namedRoutes.Any(r=>r.Options.IsRightAligned))
-            {
-                ul.AddCssClass("pull-right");
-            }
+
+            // todo: css classes
 
             var tagBuilders = new List<TagBuilder>();
 
@@ -82,10 +80,7 @@ namespace NavigationRoutes
             {
                 var li = new TagBuilder("li");
                 li.InnerHtml = html.RouteLink(route.DisplayName, route.Name).ToString();
-                if (route.Options.IsRightAligned)
-                {
-                    li.AddCssClass("pull-right");
-                }
+                // todo: css classes
 
                 if (CurrentRouteMatchesName(html, route.Name))
                 {
@@ -98,12 +93,6 @@ namespace NavigationRoutes
                 }
 
                 tagBuilders.Add(li);
-                if (route.Options.HasBreakAfter)
-                {
-                    var breakLi = new TagBuilder("li");
-                    breakLi.AddCssClass("divider-vertical");
-                    tagBuilders.Add(breakLi);
-                }
                 
             }
             var tags = new StringBuilder();
@@ -129,13 +118,6 @@ namespace NavigationRoutes
                 childLi.InnerHtml = html.RouteLink(child.DisplayName, child.Name).ToString();
                 ul.InnerHtml += childLi.ToString();
 
-                // support for drop down list breaks 
-                if (child.Options.HasBreakAfter)
-                {
-                    var breakLi = new TagBuilder("li");
-                    breakLi.AddCssClass("divider");
-                    ul.InnerHtml += breakLi.ToString();
-                }
             }
 
             // append the UL

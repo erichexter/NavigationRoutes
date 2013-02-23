@@ -16,7 +16,6 @@ namespace NavigationRoutes
             : base(url, routeHandler)
         {
             _name = name;
-            Options=new NavigationRouteOptions();
         }
 
         public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
@@ -62,22 +61,6 @@ namespace NavigationRoutes
         public List<NamedRoute> Children { get { return _childRoutes; } }
         public bool IsChild { get; set; }
         
-        /// <summary>
-        /// The ID to be rendered for the UL containing the navigation items. Ignored on child routes.
-        /// If set, each distinct ID will be rendered as a seperate UL.
-        /// </summary>
-        public string NavigationGroup
-        {
-            get { return _navigationRoute; }
-            set { _navigationRoute = value.Replace(" ", "-"); }
-        }
-        
-        /// <summary>
-        /// Optional settings to control the rendering behavior of the navigation route in the menu.
-        /// </summary>
-        public NavigationRouteOptions Options { get; set; }
-
-
-
+        public string Area { get; set; }
     }
 }

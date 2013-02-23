@@ -47,30 +47,27 @@ namespace NavigationRoutes
         }
 
 
-        public static NavigationRouteBuilder MapNavigationRoute<T>(this RouteCollection routes, string displayName, Expression<Func<T, ActionResult>> action, string navigationGroup = "", NavigationRouteOptions options = null) where T : IController
+        public static NavigationRouteBuilder MapNavigationRoute<T>(this RouteCollection routes, string displayName, Expression<Func<T, ActionResult>> action) where T : IController
         {
             var newRoute = new NamedRoute("", "", new MvcRouteHandler());
             newRoute.DisplayName = displayName;
-            newRoute.NavigationGroup = navigationGroup;
-            newRoute.Options = options ?? new NavigationRouteOptions();
-            newRoute.ToDefaultAction(action, newRoute.Options);
+            newRoute.ToDefaultAction(action);
             routes.Add(newRoute.Name, newRoute);
             return new NavigationRouteBuilder(routes, newRoute);
         }
 
-        public static NavigationRouteBuilder AddChildRoute<T>(this NavigationRouteBuilder builder, string DisplayText, Expression<Func<T, ActionResult>> action, NavigationRouteOptions options = null) where T : IController
+        public static NavigationRouteBuilder AddChildRoute<T>(this NavigationRouteBuilder builder, string DisplayText, Expression<Func<T, ActionResult>> action) where T : IController
         {
             var childRoute = new NamedRoute("", "", new MvcRouteHandler());
             childRoute.DisplayName = DisplayText;
             childRoute.IsChild = true;
-            childRoute.Options = options ?? new NavigationRouteOptions();
-            childRoute.ToDefaultAction<T>(action, childRoute.Options);
+            childRoute.ToDefaultAction<T>(action);
             builder._parent.Children.Add(childRoute);
             builder._routes.Add(childRoute.Name,childRoute);
             return builder;
         }
 
-        public static NamedRoute ToDefaultAction<T>(this NamedRoute route, Expression<Func<T, ActionResult>> action, NavigationRouteOptions options) where T : IController
+        public static NamedRoute ToDefaultAction<T>(this NamedRoute route, Expression<Func<T, ActionResult>> action) where T : IController
         {
             var body = action.Body as MethodCallExpression;
 
@@ -109,10 +106,10 @@ namespace NavigationRoutes
             route.Defaults.Add("controller", controllerName);
             route.Defaults.Add("action", actionName);
 
-            var areaName = options.AreaName;
+            var areaName = route.Area ?? string.Empty;
 
             route.Url= CreateUrl(actionName,controllerName,areaName);
-            //TODO: Add area to route name
+
             if(areaName=="")
                 route.Name = "Navigation-" + controllerName + "-" + actionName;
             else
@@ -126,10 +123,12 @@ namespace NavigationRoutes
             {
                 route.DataTokens.Add("area", areaName.ToLower());
             }
-            if (!string.IsNullOrEmpty(options.FilterToken))
-            {
-                route.DataTokens.Add(Defaults.FILTER_TOKEN_KEY, options.FilterToken.ToLower());
-            }
+
+            // todo: filter tokens
+            //if (!string.IsNullOrEmpty(options.FilterToken))
+            //{
+            //    route.DataTokens.Add(Defaults.FILTER_TOKEN_KEY, options.FilterToken.ToLower());
+            //}
 
             return route;
         }
