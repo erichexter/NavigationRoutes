@@ -1,18 +1,15 @@
-﻿using NavigationRoutes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
-    public class NullFilter:INavigationFilter
+    using System.Web.Routing;
+    using NavigationRoutes;
+
+    public class NullFilter : INavigationFilter
     {
-        public  bool _wasCalled=false;
+        public bool FilterWasCalled = false;
+
         public bool ShouldRemove(Route navigationRoutes)
         {
-            _wasCalled = true;
+            this.FilterWasCalled = true;
             return false;
         }
     }

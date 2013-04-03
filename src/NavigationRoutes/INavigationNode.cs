@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NavigationRoutes
+﻿namespace NavigationRoutes
 {
+    using System.Collections.Generic;
+
     public interface INavigationNode
     {
-        INavigationNode ParentNode { get; set; }
         List<INavigationNode> ChildNavigationNodes { get; set; }
-        NavigationNodeOptions Options { get; set; }        
-    }
 
-    
+        NavigationNodeOptions Options { get; set; }
+
+        INavigationNode ParentNode { get; set; }
+    }
 }

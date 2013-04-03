@@ -1,31 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-namespace UnitTests
+﻿namespace UnitTests
 {
-    public class HomeController:System.Web.Mvc.Controller
+    using System;
+    using System.Web.Mvc;
+
+    public class HomeController : System.Web.Mvc.Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
         public ActionResult About()
         {
-            return View();
+            return this.View();
         }
+
+        public ActionResult Index()
+        {
+            return this.View();
+        }
+
         [Authorize]
         public ActionResult Logout()
         {
-            return RedirectToAction("~/");
+            return this.RedirectToAction("~/");
         }
-
 
         internal ActionResult ChangePassword()
         {
             throw new NotImplementedException();
         }
     }
-
 }

@@ -1,6 +1,6 @@
 ﻿namespace NavigationRoutes
 {
-    public interface INavigationFilter:INavigationRouteFilter
+    public interface INavigationFilter : INavigationRouteFilter
     {
     }
 }
