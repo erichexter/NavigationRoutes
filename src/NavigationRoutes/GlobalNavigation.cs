@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Routing;
-using UnitTests;
-
-namespace NavigationRoutes
+﻿namespace NavigationRoutes
 {
+    using System.Collections.Generic;
+    using System.Web.Routing;
+
     public static class GlobalNavigation
     {
         static GlobalNavigation()
         {
-            Nodes=new List<INavigationNode>();
-            Filters=new List<INavigationFilter>();
+            Nodes = new List<INavigationNode>();
+            Filters = new List<INavigationFilter>();
         }
 
-        public static IList<INavigationNode> Nodes { get; private set; }
-
         public static IList<INavigationFilter> Filters { get; private set; }
+
+        public static IList<INavigationNode> Nodes { get; private set; }
 
         public static void AddAllRoutes(RouteCollection routes)
         {
@@ -34,11 +32,12 @@ namespace NavigationRoutes
         {
             if (node.Options.Route != null)
             {
-                routes.Add(node.Options.Route.Name ,node.Options.Route);
+                routes.Add(node.Options.Route.Name, node.Options.Route);
             }
+
             foreach (var child in node.ChildNavigationNodes)
             {
-                AddNodeToRoutes(routes,child);
+                AddNodeToRoutes(routes, child);
             }
         }
     }

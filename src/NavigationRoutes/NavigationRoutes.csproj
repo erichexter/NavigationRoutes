@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositeMvcHtmlString.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="GlobalNavigation.cs" />
     <Compile Include="GlobalNavigationNodesExtensions.cs" />
@@ -82,16 +83,18 @@
     <Compile Include="INavigationNode.cs" />
     <Compile Include="INavigationRouteFilter.cs" />
     <Compile Include="NamedRoute.cs" />
-    <Compile Include="NavigationExtensions.cs" />
     <Compile Include="NavigationManager.cs" />
     <Compile Include="NavigationNode.cs" />
     <Compile Include="NavigationNodeBuilder.cs" />
     <Compile Include="NavigationNodeOptions.cs" />
     <Compile Include="NavigationNodeType.cs" />
+    <Compile Include="NavigationRouteBuilder.cs" />
     <Compile Include="NavigationRouteConfigurationExtensions.cs" />
     <Compile Include="NavigationRouteFilter.cs" />
     <Compile Include="NavigationRouteOptions.cs" />
+    <Compile Include="NavigationViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteValueDictionaryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

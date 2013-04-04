@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NavigationRoutes
+﻿namespace NavigationRoutes
 {
-    public class NavigationManager : List<INavigationNode>
-    {
-        private List<INavigationNode> _navigationNodes;
-    //    public NavigationRouteFilters Filters { get; set; }
+    using System.Collections.Generic;
 
-        // void InsertAfter(INavigationNode target, IEnumerable<INavigationNode> nodes)
+    public class NavigationManagerCollection : List<INavigationNode>
+    {
+        // this is never used
+        private List<INavigationNode> baseNavigationNodes;
+
+        ////public NavigationRouteFilters Filters { get; set; }
+
+        ////void InsertAfter(INavigationNode target, IEnumerable<INavigationNode> nodes)
 
         public string ToJson()
         {
-            return "";
+            return string.Empty;
         }
     }
 }

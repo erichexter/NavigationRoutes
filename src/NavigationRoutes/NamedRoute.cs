@@ -1,71 +1,72 @@
-using System.Collections.Generic;
-using System.Web.Mvc;
-using System.Web.Routing;
-
 namespace NavigationRoutes
 {
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
     public class NamedRoute : Route
     {
-        string _name = string.Empty;
-        string _displayName = string.Empty;
-        string _navigationRoute = string.Empty;
-
-        List<NamedRoute> _childRoutes = new List<NamedRoute>();
-        NavigationRouteOptions _options = new NavigationRouteOptions();
+        private List<NamedRoute> routeChildRoutes = new List<NamedRoute>();
+        private string routeDisplayName = string.Empty;
+        private string routeName = string.Empty;
+        private string routeNavigationRoute = string.Empty;
+        private NavigationRouteOptions routeOptions = new NavigationRouteOptions();
 
         public NamedRoute(string name, string url, IRouteHandler routeHandler)
             : base(url, routeHandler)
         {
-            _name = name;
+            this.routeName = name;
         }
 
-        public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
-                          IRouteHandler routeHandler)
+        public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, IRouteHandler routeHandler)
             : base(url, defaults, constraints, routeHandler)
         {
-            _name = name;
+            this.routeName = name;
         }
 
-        public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
-                          RouteValueDictionary dataTokens, IRouteHandler routeHandler)
+        public NamedRoute(string name, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, IRouteHandler routeHandler)
             : base(url, defaults, constraints, dataTokens, routeHandler)
         {
-            _name = name;
+            this.routeName = name;
         }
 
-        public NamedRoute(string name, string displayName, string url, RouteValueDictionary defaults, RouteValueDictionary constraints,
-                          RouteValueDictionary dataTokens, IRouteHandler routeHandler)
+        public NamedRoute(string name, string displayName, string url, RouteValueDictionary defaults, RouteValueDictionary constraints, RouteValueDictionary dataTokens, IRouteHandler routeHandler)
             : base(url, defaults, constraints, dataTokens, routeHandler)
         {
-            _name = name;
-            _displayName = displayName;
+            this.routeName = name;
+            this.routeDisplayName = displayName;
         }
 
-        public NamedRoute(string name, string displayName, string url, MvcRouteHandler routeHandler) : base(url, routeHandler)
+        public NamedRoute(string name, string displayName, string url, MvcRouteHandler routeHandler)
+            : base(url, routeHandler)
         {
-            _name = name;
-            _displayName = displayName;
+            this.routeName = name;
+            this.routeDisplayName = displayName;
         }
 
-        public string Name
+        public List<NamedRoute> Children
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return this.routeChildRoutes; }
         }
 
         public string DisplayName
         {
-            get { return _displayName ?? _name; }
-            set { _displayName = value; }
+            get { return this.routeDisplayName ?? this.routeName; }
+            set { this.routeDisplayName = value; }
         }
-        
-        public List<NamedRoute> Children { get { return _childRoutes; } }
+
         public bool IsChild { get; set; }
+
+        public string Name
+        {
+            get { return this.routeName; }
+            set { this.routeName = value; }
+        }
 
         public NavigationRouteOptions Options
         {
-            get { return _options; }
-            set { _options = value; } 
+            get { return this.routeOptions; }
+            set { this.routeOptions = value; }
         }
     }
 }
