@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class NavigationManager : List<INavigationNode>
+    public class NavigationManagerCollection : List<INavigationNode>
     {
         // this is never used
         private List<INavigationNode> baseNavigationNodes;

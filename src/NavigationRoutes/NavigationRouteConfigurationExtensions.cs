@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
     using System.Web.Mvc;
     using System.Web.Routing;
-    using Microsoft.Web.Mvc; // nuget:mvc4futures
+    using Microsoft.Web.Mvc;
 
     public static class NavigationRouteConfigurationExtensions
     {
@@ -18,6 +18,7 @@
             {
                 childRoute.Options = options;
             }
+            
             childRoute.ToDefaultAction<T>(action);
             builder.Parent.Children.Add(childRoute);
             builder.Routes.Add(childRoute.Name, childRoute);
@@ -90,6 +91,7 @@
             {
                 newRoute.Options = options;
             }
+            
             newRoute.ToDefaultAction(action);
             routes.Add(newRoute.Name, newRoute);
             return new NavigationRouteBuilder(routes, newRoute);
@@ -173,18 +175,5 @@
 
             return route;
         }
-    }
-
-    public class NavigationRouteBuilder
-    {
-        public NavigationRouteBuilder(RouteCollection routes, NamedRoute parent)
-        {
-            this._routes = routes;
-            this._parent = parent;
-        }
-
-        public NamedRoute _parent { get; set; }
-
-        public RouteCollection _routes { get; set; }
     }
 }

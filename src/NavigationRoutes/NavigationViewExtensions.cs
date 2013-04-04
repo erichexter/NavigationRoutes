@@ -103,41 +103,13 @@
             var namedRoute = html.ViewContext.RouteData.Route as NamedRoute;
             if (namedRoute != null)
             {
-                if (string.Equals(routeName, namedRoute.Name, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(routeName, namedRoute.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
             }
 
             return false;
-        }
-    }
-
-    public static class RouteValueDictionaryExtensions
-    {
-        public static string FilterToken(this RouteValueDictionary routeValues)
-        {
-            return (string)routeValues[Constants.FilterTokenKey];
-        }
-
-        public static bool HasFilterToken(this RouteValueDictionary routeValues)
-        {
-            return routeValues.ContainsKey(Constants.FilterTokenKey);
-        }
-    }
-
-    public class CompositeMvcHtmlString : IHtmlString
-    {
-        private readonly IEnumerable<IHtmlString> baseStrings;
-
-        public CompositeMvcHtmlString(IEnumerable<IHtmlString> strings)
-        {
-            this.baseStrings = strings;
-        }
-
-        public string ToHtmlString()
-        {
-            return string.Join(string.Empty, this.baseStrings.Select(x => x.ToHtmlString()));
         }
     }
 }
