@@ -9,21 +9,25 @@
 
     public static class NavigationRouteConfigurationExtensions
     {
-        public static NavigationRouteBuilder AddChildRoute<T>(this NavigationRouteBuilder builder, string displayText, Expression<Func<T, ActionResult>> action) where T : IController
+        public static NavigationRouteBuilder AddChildRoute<T>(this NavigationRouteBuilder builder, string displayText, Expression<Func<T, ActionResult>> action, NavigationRouteOptions options = null) where T : IController
         {
             var childRoute = new NamedRoute(string.Empty, string.Empty, new MvcRouteHandler());
             childRoute.DisplayName = displayText;
             childRoute.IsChild = true;
+            if (options != null)
+            {
+                childRoute.Options = options;
+            }
             childRoute.ToDefaultAction<T>(action);
-            builder._parent.Children.Add(childRoute);
-            builder._routes.Add(childRoute.Name, childRoute);
+            builder.Parent.Children.Add(childRoute);
+            builder.Routes.Add(childRoute.Name, childRoute);
             return builder;
         }
 
         public static string CreateUrl(string actionName, string controllerName, string areaName)
         {
             var url = CreateUrl(actionName, controllerName);
-            if (areaName == string.Empty)
+            if (string.IsNullOrWhiteSpace(areaName))
             {
                 return url;
             }
@@ -78,10 +82,14 @@
             routes.Add(name, newRoute);
         }
 
-        public static NavigationRouteBuilder MapNavigationRoute<T>(this RouteCollection routes, string displayName, Expression<Func<T, ActionResult>> action) where T : IController
+        public static NavigationRouteBuilder MapNavigationRoute<T>(this RouteCollection routes, string displayName, Expression<Func<T, ActionResult>> action, NavigationRouteOptions options = null) where T : IController
         {
             var newRoute = new NamedRoute(string.Empty, string.Empty, new MvcRouteHandler());
             newRoute.DisplayName = displayName;
+            if (options != null)
+            {
+                newRoute.Options = options;
+            }
             newRoute.ToDefaultAction(action);
             routes.Add(newRoute.Name, newRoute);
             return new NavigationRouteBuilder(routes, newRoute);
@@ -134,7 +142,7 @@
                 var areaName = route.Options.Area ?? string.Empty;
                 route.Url = CreateUrl(actionName, controllerName, areaName);
 
-                if (areaName == string.Empty)
+                if (string.IsNullOrWhiteSpace(areaName))
                 {
                     route.Name = "Navigation-" + controllerName + "-" + actionName;
                 }
