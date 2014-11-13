@@ -12,6 +12,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="NavigationRoutes\bin\debug\navigationroutes.dll" target="lib"/>
+    <file src="NavigationRoutes\*.cs" target="NavigationRoutes"></file>
   </files>
 </package>
