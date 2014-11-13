@@ -70,6 +70,7 @@ namespace NavigationRoutes
         {
             var ul = new TagBuilder("ul");
             ul.AddCssClass("nav");
+            ul.AddCssClass("navbar-nav");
             
             var namedRoutes = routes as IList<NamedRoute> ?? routes.ToList();
             if (namedRoutes.Any(r=>r.Options.IsRightAligned))
